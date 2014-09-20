@@ -62,5 +62,7 @@ logsession <- function(req) {
 log <- function(msg) {
   now <- as.character(Sys.time())
   src <- match.call()[[1]]
-  cat(now, src, msg, "\n")
+  cat(msg)
+  cat("\n")
+#   cat(now, src, msg, "\n")
 }
