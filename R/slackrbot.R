@@ -12,7 +12,7 @@ frontDoor <- function(env) {
   req <- Request$new(env)
   logsession(req)
   body <- NULL
-  if (req$post() & req$path()=="/slack") {
+  if (req$post() & req$path()=="/slack/") {
     zipit <- req$POST()
     if (!is.null(zipit$user_name)) {
       if (zipit$user_name == "jayjacobs") {
@@ -46,14 +46,9 @@ frontDoor <- function(env) {
 #' Internal function
 #' @param req the Rook request object
 logsession <- function(req) {
-#   msg <- paste(req$ip(), req$request_method(), req$url(), 
-#                req$user_agent(), req$path())
-#   log(msg)
-  cat(req$ip())
-  cat(req$request_method())
-  log(req$url())
-  log(req$user_agent())
-  log(req$path())
+  msg <- paste(req$ip(), req$request_method(), req$url(), 
+               req$user_agent(), req$path())
+  log(msg)
 }
 
 #' Internal logging function
@@ -62,7 +57,5 @@ logsession <- function(req) {
 log <- function(msg) {
   now <- as.character(Sys.time())
   src <- match.call()[[1]]
-  cat(msg)
-  cat("\n")
-#   cat(now, src, msg, "\n")
+  cat(now, src, msg, "\n")
 }
