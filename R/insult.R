@@ -5,6 +5,9 @@
 #' @param user the name of the entity to insult
 #' @param from the person asking for the insult
 insult <- function(user, from) {
+  if (is.na(user)) {
+    user <- from
+  }
   # https://github.com/akatrevorjay/lucy/blob/master/lib/Acme/Scurvy/Whoreson/BilgeRat/Backend/insultserver.pm
   srcadj <- c("acidic", "antique", "contemptible", "culturally-unsound", "despicable", "evil", "fermented",
               "festering", "foul", "fulminating", "humid", "impure", "inept", "inferior", "industrial",

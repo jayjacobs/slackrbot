@@ -9,6 +9,8 @@ Depends:
     R (>= 3.1.1),
     Rook,
     httpuv,
-    rjson
+    rjson,
+    httr,
+    utils
 License: MIT + file LICENSE
 LazyData: true

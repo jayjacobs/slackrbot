@@ -50,6 +50,8 @@ parseRequest <- function(post) {
       response <- sammich(post)
     } else if (grepl("excuse", post$text)) {
       response <- paste0(post$user_name, ": _",  sample(bofh, 1), "_")
+    } else if (post$pirate) {
+      response <- arrr(post$text)
     } else {
       response <- dunno(post)
     }
@@ -64,6 +66,12 @@ setupPost <- function(post) {
   if(grepl("^artie", post$text, ignore.case=T)) {
     post$targeted <- TRUE
     post$text <- sub("^artie[:, ]+", "", post$text, perl=T, ignore.case=T)
+    Sys.setenv(SLACK_LASTMSG=as.numeric(Sys.time()))
+    post$recent <- TRUE
+  } else if(grepl("^pirate artie", post$text, ignore.case=T)) {
+    post$targeted <- TRUE
+    post$pirate <- TRUE
+    post$text <- sub("^pirate artie[:, ]+", "", post$text, perl=T, ignore.case=T)
     Sys.setenv(SLACK_LASTMSG=as.numeric(Sys.time()))
     post$recent <- TRUE
   } else {

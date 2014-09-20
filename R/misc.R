@@ -25,9 +25,9 @@ sammich <- function(post) {
     sammich <- c("aw man, okay.", "ask later, I'm busy.",
                  "would you like some whine with your sammich?",
                  "with a pickle on the side?", "Ham or Turkey?")
-    response <- paste0(post$name, ": ", sample(sammich, 1))
+    response <- paste0(post$user_name, ": ", sample(sammich, 1))
   } else {
-    response <- paste0(post$name, ": I didn't here the magic word.")
+    response <- paste0(post$user_name, ": I didn't here the magic word.")
   }
   response
 }
@@ -41,4 +41,15 @@ dunno <- function(post) {
               paste(weekdays(as.Date(Sys.Date())), "is my day off."),
               "you should type slower, maybe I'll understand you")
   paste0(post$user_name,": ", sample(dunnos, 1))
+}
+
+#' Convert english text to pirate
+#' 
+#' taken from the short arrr package at https://github.com/noamross/arrr
+#' @import httr utils
+#' @param text Yer lubberly words
+arrr = function(text) {
+  URL = paste0('http://isithackday.com/arrpi.php?text=', URLencode(text))
+  out = content(GET(URL), as="text")
+  return(sub("wench", "lass", out))
 }

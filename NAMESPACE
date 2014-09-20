@@ -3,4 +3,6 @@
 export(frontDoor)
 import(Rook)
 import(httpuv)
+import(httr)
 import(rjson)
+import(utils)
