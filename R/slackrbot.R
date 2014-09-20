@@ -9,25 +9,69 @@
 #' @import Rook
 #' @import rjson
 frontDoor <- function(env) {
-  fileid <- 1
-  fname <- sprintf("request%03d.rda", fileid)
-  while(file.exists(fname)) {
-    fileid <- fileid + 1
-    fname <- sprintf("request%03d.rda", fileid)    
-  }
-  save(env, file = fname)
   req <- Request$new(env)
   logsession(req)
-  body <- NULL
-  if (req$post() & req$path()=="/slack/") {
-    zipit <- req$POST()
-    if (!is.null(zipit$user_name)) {
-      if (zipit$user_name == "jayjacobs") {
-        response <- paste0(zipit$user_name, ": zip it.")
-        body <- toJSON(list("text"=response))
+  response <- NULL
+  # check if it's a post, it's the right path, and the user agent is slackbot.
+  if (req$post() & req$path()=="/slack/" & grepl("Slackbot", req$user_agent())) {
+    post <- req$POST()
+    if (all(c("user_id", "text", "user_name") %in% names(post))) { # check if slack object
+      if(!(post$user_id=="USLACKBOT" & post$user_name=="slackbot")) { # not our own msg
+        response <- parseRequest(req)
       }
     }
   }
+  res <- Response$new()
+  if(is.null(response)) {
+    res$write("")
+  } else {
+    res$write(toJSON(list("text"=response)))
+  }
+  res$finish()
+}
+
+#' Main request parsing function
+#' 
+#' This is where you would add your own hooks and things
+#' @param post the post object to handle
+parseRequest <- function(post) {
+  post <- setupPost(post)
+  if (post$targeted) {
+    return("still learning...")
+  }
+}
+
+
+#' look for a message to me, or if I spoke recently
+#'
+#' @param post the post object
+setupPost <- function(post) {
+  if(grepl("^artie", post$text, ignore.case=T)) {
+    post$targeted <- TRUE
+    post$text <- sub("^jaybot[:, ]+", "", post$text, perl=T)
+    Sys.setenv(SLACK_LASTMSG=as.numeric(Sys.time()))
+    post$recent <- TRUE
+  } else {
+    post$targeted <- FALSE
+    post$recent <- (as.numeric(Sys.time())-10) < Sys.getenv("SLACK_LASTMSG")
+  }
+  post
+}
+
+#' placeholder function with notes
+oldfunc <- function() {
+    #user_id => USLACKBOT 
+    # user_name => slackbot 
+
+    
+    
+#     if (!is.null(zipit$user_name)) {
+#       if (zipit$user_name == "jayjacobs") {
+#         response <- paste0(zipit$user_name, ": zip it.")
+#         body <- toJSON(list("text"=response))
+#       }
+#     }
+#   }
   
   # $token <- "d9W84OJWBaTUOutg99701Oal"
   # $team_id <- "T02J411CY"
@@ -65,4 +109,12 @@ log <- function(msg) {
   now <- as.character(Sys.time())
   src <- match.call()[[1]]
   cat(now, src, msg, "\n")
+}
+
+.onLoad <- function(libname, pkgname) {
+  Sys.setenv(SLACK_LASTMSG=0)
+}
+
+.onUnload <- function(libname, pkgname) {
+  Sys.unsetenv("SLACK_LASTMSG")
 }
