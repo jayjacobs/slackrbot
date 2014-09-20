@@ -63,7 +63,7 @@ parseRequest <- function(post) {
 setupPost <- function(post) {
   if(grepl("^artie", post$text, ignore.case=T)) {
     post$targeted <- TRUE
-    post$text <- sub("^jaybot[:, ]+", "", post$text, perl=T)
+    post$text <- sub("^artie[:, ]+", "", post$text, perl=T, ignore.case=T)
     Sys.setenv(SLACK_LASTMSG=as.numeric(Sys.time()))
     post$recent <- TRUE
   } else {
