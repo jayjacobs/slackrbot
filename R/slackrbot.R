@@ -50,7 +50,7 @@ parseRequest <- function(post) {
       response <- sammich(post)
     } else if (grepl("excuse", post$text)) {
       response <- paste0(post$user_name, ": _",  sample(bofh, 1), "_")
-    } else if (post$pirate) {
+    } else if ("pirate" %in% names(post) && post$pirate) {
       response <- arrr(post$text)
     } else {
       response <- dunno(post)
