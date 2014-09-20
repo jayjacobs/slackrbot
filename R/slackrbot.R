@@ -37,7 +37,20 @@ frontDoor <- function(env) {
 parseRequest <- function(post) {
   post <- setupPost(post)
   if (post$targeted) {
-    return("still learning...")
+    words <- unlist(strsplit(post$text, " "))
+    if (tolower(words[1]) == "insult") {
+      response <- insult(paste(words[2:length(words)], collapse=" "), post$user_name)
+    } else if (grepl("how (the hell )?(are )?(ya|you)( doin\\'?g?)?\\?*$", post$text, perl=T)) {
+      response <- howyou(post)
+    } else if (grepl("thank|thanx|thx", post$text)) {
+      response <- thanks(post)
+    } else if (grepl("^make me a [sammich|sandwich|sandwitch]+", post$text, perl=T)) {
+      response <- sammich(post)
+    } else if (grepl("excuse", post$text)) {
+      response <- paste0(post$user_name, ": _",  sample(bofh, 1), "_")
+    } else {
+      response <- dunno(post)
+    }
   }
 }
 
@@ -111,6 +124,15 @@ log <- function(msg) {
   cat(now, src, msg, "\n")
 }
 
+#' List of BOFH excuses
+#'
+#' Full list of BOFH excuses taken from http://pages.cs.wisc.edu/~ballard/bofh/excuses
+#'
+#' @docType data
+#' @keywords datasets
+#' @format text list
+#' @name bofh
+NULL
 .onLoad <- function(libname, pkgname) {
   Sys.setenv(SLACK_LASTMSG=0)
 }
