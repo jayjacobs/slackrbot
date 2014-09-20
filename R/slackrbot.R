@@ -46,9 +46,14 @@ frontDoor <- function(env) {
 #' Internal function
 #' @param req the Rook request object
 logsession <- function(req) {
-  msg <- paste(req$ip(), req$request_method(), req$url(), 
-               req$user_agent(), req$path())
-  log(msg)
+#   msg <- paste(req$ip(), req$request_method(), req$url(), 
+#                req$user_agent(), req$path())
+#   log(msg)
+  log(req$ip())
+  log(req$request_method())
+  log(req$url())
+  log(req$user_agent())
+  log(req$path())
 }
 
 #' Internal logging function
