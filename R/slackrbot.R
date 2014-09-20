@@ -17,7 +17,7 @@ frontDoor <- function(env) {
     post <- req$POST()
     if (all(c("user_id", "text", "user_name") %in% names(post))) { # check if slack object
       if(!(post$user_id=="USLACKBOT" & post$user_name=="slackbot")) { # not our own msg
-        response <- parseRequest(req)
+        response <- parseRequest(post)
       }
     }
   }
