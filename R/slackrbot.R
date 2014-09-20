@@ -36,8 +36,10 @@ frontDoor <- function(env) {
 #' @param post the post object to handle
 parseRequest <- function(post) {
   post <- setupPost(post)
+  log(post$text)
   if (post$targeted) {
     words <- unlist(strsplit(post$text, " "))
+    log(paste(words, collapse="-"))
     if (tolower(words[1]) == "insult") {
       response <- insult(paste(words[2:length(words)], collapse=" "), post$user_name)
     } else if (grepl("how (the hell )?(are )?(ya|you)( doin\\'?g?)?\\?*$", post$text, perl=T)) {
