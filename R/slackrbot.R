@@ -9,6 +9,13 @@
 #' @import Rook
 #' @import rjson
 frontDoor <- function(env) {
+  fileid <- 1
+  fname <- sprintf("request%03d.rda", fileid)
+  while(file.exists(fname)) {
+    fileid <- fileid + 1
+    fname <- sprintf("request%03d.rda", fileid)    
+  }
+  save(env, file = fname)
   req <- Request$new(env)
   logsession(req)
   body <- NULL
