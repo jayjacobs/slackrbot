@@ -10,7 +10,7 @@
 #' @import rjson
 frontDoor <- function(env) {
   req <- Request$new(env)
-  logsession(env)
+  logsession(req)
   body <- NULL
   if (req$post() & req$path()=="/slack") {
     zipit <- req$POST()
@@ -49,8 +49,8 @@ logsession <- function(req) {
 #   msg <- paste(req$ip(), req$request_method(), req$url(), 
 #                req$user_agent(), req$path())
 #   log(msg)
-  log(req$ip())
-  log(req$request_method())
+  cat(req$ip())
+  cat(req$request_method())
   log(req$url())
   log(req$user_agent())
   log(req$path())
