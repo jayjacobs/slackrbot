@@ -73,6 +73,34 @@ inspirational = function() {
   paste0("_", inspire$quote[quote], "_  - ", inspire$who[quote])
 }
 
+#' refresh demotivational posters
+#' @import rvest
+getDemotivate <- function() {
+  dem <- html("http://www.despair.com/demotivators.html")
+  link <- paste0("http://www.despair.com/", 
+                 dem %>% html_nodes(xpath="//div[@class='tilecontents']/a[@class='vaimglink']") %>% 
+                   html_attr(name="href"))
+  img <- paste0("http://www.despair.com/", 
+                dem %>% html_nodes(xpath="//img[@class='tileimg']") %>% html_attr("src"))
+  category <- dem %>% html_nodes(xpath="//div/a/h3") %>% html_text()
+  saying <- dem %>% html_nodes(xpath="//div[@class='tilecontents']/p") %>% html_text()
+  demotivate <- data.frame(category, link, img, saying)
+  demotivate <- demotivate[-1, ]
+  save(demotivate, file="data/demotivate.rda")
+}
+
+#' random demotivational quote
+#' @import rjson
+demotivated <- function() {
+  q <- sample(nrow(demotivate), 1)
+  out <- list()
+  out$text <- demotivate$saying[q]
+  out$fields <- c(list(title=demotivate$category[q], 
+                       value=demotivate$img[q],
+                       short=TRUE))
+  toJSON(out)
+}
+
 
 #' Coin Toss
 #' 

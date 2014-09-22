@@ -25,7 +25,11 @@ frontDoor <- function(env) {
   if(is.null(response)) {
     res$write("")
   } else {
-    res$write(toJSON(list("text"=response)))
+    if (grepl("^{", response)) {
+      res$write(response)
+    } else {
+      res$write(toJSON(list("text"=response)))
+    }
   }
   res$finish()
 }
@@ -37,7 +41,6 @@ frontDoor <- function(env) {
 parseRequest <- function(post) {
   post <- setupPost(post)
   log(paste(post$channel_name, post$text, sep=": "))
-  #log(paste(names(post), collapse=", "))
   response <- NULL
   if (post$targeted) {
     words <- unlist(strsplit(post$text, " "))
@@ -63,6 +66,9 @@ parseRequest <- function(post) {
     } else {
       response <- dunno(post)
     }
+  }
+  if (is.null(response) && grepl("happy|happiness", tolower(post$text))) {
+    response <- demotivated()
   }
   response
 }
@@ -138,6 +144,17 @@ NULL
 #' @keywords datasets
 #' @format text list
 #' @name inspire
+NULL
+
+#' List of demotivational quotes
+#'
+#' Full list of quotes taken from 
+#' http://www.despair.com
+#'
+#' @docType data
+#' @keywords datasets
+#' @format text list
+#' @name demotivate
 NULL
 
 .onLoad <- function(libname, pkgname) {
