@@ -25,8 +25,8 @@ frontDoor <- function(env) {
   if(is.null(response)) {
     res$write("")
   } else {
-    if (grepl("^{", response)) {
-      res$write(response)
+    if (is.list(response)) {
+      res$write(toJSON(response))
     } else {
       res$write(toJSON(list("text"=response)))
     }

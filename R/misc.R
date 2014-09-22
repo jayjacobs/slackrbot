@@ -98,7 +98,7 @@ demotivated <- function() {
   out$fields <- c(list(title=demotivate$category[q], 
                        value=demotivate$img[q],
                        short=TRUE))
-  toJSON(out)
+  out
 }
 
 
