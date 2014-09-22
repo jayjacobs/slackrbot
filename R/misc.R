@@ -99,9 +99,9 @@ demotivated <- function() {
   #                        value=demotivate$img[q],
   #                        short=TRUE), NULL)
   #   paste('{ "text" :', quote(demotivate$saying[q])
-  paste0("*", demotivate$category[q],"*\n",
-         "_",demotivate$saying[q],"_\n",
-         demotivate$img[q])
+  #         demotivate$img[q])
+  paste0("*<", demotivate$link[q], "|", demotivate$category[q],">*\n",
+         "_",demotivate$saying[q],"_")
 }
 
 
