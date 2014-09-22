@@ -36,8 +36,8 @@ frontDoor <- function(env) {
 #' @param post the post object to handle
 parseRequest <- function(post) {
   post <- setupPost(post)
-  log(post$text)
-  log(paste(names(post), collapse=", "))
+  log(paste(post$channel_name, post$text, sep=": "))
+  #log(paste(names(post), collapse=", "))
   response <- NULL
   if (post$targeted) {
     words <- unlist(strsplit(post$text, " "))
