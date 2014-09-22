@@ -42,6 +42,8 @@ parseRequest <- function(post) {
     log(paste(words, collapse="-"))
     if (tolower(words[1]) == "insult") {
       response <- insult(paste(words[2:length(words)], collapse=" "), post$user_name)
+    } else if (tolower(words[1]) == "compliment") {
+      response <- compliment(paste(words[2:length(words)], collapse=" "))
     } else if (grepl("how (the hell )?(are )?(ya|you)( doin\\'?g?)?\\?*$", post$text, perl=T)) {
       response <- howyou(post)
     } else if (grepl("thank|thanx|thx", post$text)) {
@@ -56,8 +58,9 @@ parseRequest <- function(post) {
       heads <- runif(1) > 0.5
       cointext <- ifelse(heads, "heads", "tails")
       response <- paste0("Sorry ", post$user_name, ", it came up ", cointext)
+      cat("trying to parse:", post$text, "\n")
       if(grepl("i (call|have|want) (head|tail)", post$text)) {
-        if(grepl("i (call|have|want) head", post$text) && heads) {
+        if(grepl("i (call|have|want) (head)", post$text) && heads) {
           response <- paste0("Congrats ", post$user_name, ", it came up ", cointext)
         }
       } else {
@@ -153,6 +156,17 @@ log <- function(msg) {
 #' @format text list
 #' @name bofh
 NULL
+
+#' List of compliments
+#'
+#' Full list of compliments taken from http://peoplearenice.blogspot.com/p/compliment-list.html
+#'
+#' @docType data
+#' @keywords datasets
+#' @format text list
+#' @name compliments
+NULL
+
 .onLoad <- function(libname, pkgname) {
   Sys.setenv(SLACK_LASTMSG=0)
 }

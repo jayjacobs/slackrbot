@@ -51,5 +51,15 @@ dunno <- function(post) {
 arrr = function(text) {
   URL = paste0('http://isithackday.com/arrpi.php?text=', URLencode(text))
   out = paste0("_Arrr, ", content(GET(URL), as="text"), "_")
-  return(sub("wench", "lass", out))
+  sub("wench", "lass", out)
+}
+
+#' Random compliment
+#' 
+#' generates and returns a random comment from 
+#' http://peoplearenice.blogspot.com/p/compliment-list.html
+#' 
+#' @param target the target of the compliment
+compliment = function(target) {
+  paste0(target,": ", sample(compliment, 1))
 }
