@@ -100,8 +100,13 @@ demotivated <- function() {
   #                        short=TRUE), NULL)
   #   paste('{ "text" :', quote(demotivate$saying[q])
   #         demotivate$img[q])
-  paste0("*<", demotivate$link[q], "|", demotivate$category[q],">*\n",
-         "_",demotivate$saying[q],"_")
+  if (runif(1)>0.6) {
+    out <- paste0("*<", demotivate$link[q], "|", demotivate$category[q],">*\n",
+           "_",demotivate$saying[q],"_")
+  } else {
+    out <- demotivate$img[q]
+  }
+  out
 }
 
 
