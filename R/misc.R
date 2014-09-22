@@ -64,6 +64,16 @@ compliment = function(target) {
   paste0(target,": ", sample(compliments, 1))
 }
 
+#' Random inspirational quote
+#' 
+#' generates and returns a random inspirational quote from 
+#' http://www.forbes.com/sites/kevinkruse/2013/05/28/inspirational-quotes/
+inspirational = function() {
+  quote <- sample(nrow(inspire), 1)
+  paste0("_", inspire$quote[quote], "_  - ", inspire$who[quote])
+}
+
+
 #' Coin Toss
 #' 
 #' @param post the request post data

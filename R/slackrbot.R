@@ -46,6 +46,8 @@ parseRequest <- function(post) {
       response <- insult(paste(words[2:length(words)], collapse=" "), post$user_name)
     } else if (tolower(words[1]) == "compliment") {
       response <- compliment(paste(words[2:length(words)], collapse=" "))
+    } else if (tolower(words[1]) == "inspire" || grepl("inspirational", tolower(post$text))) {
+      response <- inspirational()
     } else if (grepl("how (the hell )?(are )?(ya|you)( doin\\'?g?)?\\?*$", post$text, perl=T)) {
       response <- howyou(post)
     } else if (grepl("thank|thanx|thx", post$text)) {
@@ -125,6 +127,17 @@ NULL
 #' @keywords datasets
 #' @format text list
 #' @name compliments
+NULL
+
+#' List of inspirational quotes
+#'
+#' Full list of quotes taken from 
+#' http://www.forbes.com/sites/kevinkruse/2013/05/28/inspirational-quotes/
+#'
+#' @docType data
+#' @keywords datasets
+#' @format text list
+#' @name inspire
 NULL
 
 .onLoad <- function(libname, pkgname) {
