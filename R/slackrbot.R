@@ -60,12 +60,13 @@ parseRequest <- function(post) {
       response <- paste0("Sorry ", post$user_name, ", it came up ", cointext)
       cat("trying to parse:", post$text, "\n")
       if(grepl("i (call|have|want) (head|tail)", tolower(post$text))) {
-        if(grepl("i (call|have|want) (head)", tolower(post$text)) && heads) {
+        if(grepl("i (call|have|want) head", tolower(post$text)) && heads) {
           response <- paste0("Congrats ", post$user_name, ", it came up ", cointext)
         }
       } else {
         response <- paste0(post$user_name, ": it's ", cointext)
       }
+      cat(response, "\n")
     } else {
       response <- dunno(post)
     }
