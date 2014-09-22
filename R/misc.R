@@ -63,3 +63,21 @@ arrr = function(text) {
 compliment = function(target) {
   paste0(target,": ", sample(compliments, 1))
 }
+
+#' Coin Toss
+#' 
+#' @param post the request post data
+cointoss <- function(post) {
+  heads <- runif(1) > 0.5
+  cointext <- ifelse(heads, "heads", "tails")
+  response <- paste0("Sorry ", post$user_name, ", it came up ", cointext)
+  if(grepl("i (call|have|want) (head|tail)", tolower(post$text))) {
+    if(grepl("i (call|have|want) head", tolower(post$text)) && heads) {
+      response <- paste0("Congrats ", post$user_name, ", it came up ", cointext)
+    }
+  } else {
+    response <- paste0(post$user_name, ": it's ", cointext)
+  }
+  response
+}
+

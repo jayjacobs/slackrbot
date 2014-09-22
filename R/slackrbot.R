@@ -37,6 +37,7 @@ frontDoor <- function(env) {
 parseRequest <- function(post) {
   post <- setupPost(post)
   log(post$text)
+  response <- NULL
   if (post$targeted) {
     words <- unlist(strsplit(post$text, " "))
     log(paste(words, collapse="-"))
@@ -55,18 +56,7 @@ parseRequest <- function(post) {
     } else if ("pirate" %in% names(post) && post$pirate) {
       response <- arrr(post$text)
     } else if (grepl("(flip|toss) a[[:space:]]?[^[:space:]]*[[:space:]]?coin", tolower(post$text))) {
-      heads <- runif(1) > 0.5
-      cointext <- ifelse(heads, "heads", "tails")
-      response <- paste0("Sorry ", post$user_name, ", it came up ", cointext)
-      cat("trying to parse:", post$text, "\n")
-      if(grepl("i (call|have|want) (head|tail)", tolower(post$text))) {
-        if(grepl("i (call|have|want) head", tolower(post$text)) && heads) {
-          response <- paste0("Congrats ", post$user_name, ", it came up ", cointext)
-        }
-      } else {
-        response <- paste0(post$user_name, ": it's ", cointext)
-      }
-      cat(response, "\n")
+      response <- cointoss(post)
     } else {
       response <- dunno(post)
     }
