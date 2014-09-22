@@ -37,6 +37,7 @@ frontDoor <- function(env) {
 parseRequest <- function(post) {
   post <- setupPost(post)
   log(post$text)
+  log(paste(names(post), collapse=", "))
   response <- NULL
   if (post$targeted) {
     words <- unlist(strsplit(post$text, " "))
