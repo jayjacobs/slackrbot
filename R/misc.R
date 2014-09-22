@@ -93,12 +93,15 @@ getDemotivate <- function() {
 #' @import rjson
 demotivated <- function() {
   q <- sample(nrow(demotivate), 1)
-  out <- list()
-  out$text <- demotivate$saying[q]
-  out$fields <- c(list(title=demotivate$category[q], 
-                       value=demotivate$img[q],
-                       short=TRUE))
-  out
+  #   out <- list()
+  #   out$text <- demotivate$saying[q]
+  #   out$fields <- c(list(title=demotivate$category[q], 
+  #                        value=demotivate$img[q],
+  #                        short=TRUE), NULL)
+  #   paste('{ "text" :', quote(demotivate$saying[q])
+  paste0("*", demotivate$category[q],"*\n",
+         "_",demotivate$saying[q],"_\n",
+         demotivate$img[q])
 }
 
 
