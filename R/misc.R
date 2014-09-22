@@ -61,5 +61,5 @@ arrr = function(text) {
 #' 
 #' @param target the target of the compliment
 compliment = function(target) {
-  paste0(target,": ", sample(compliment, 1))
+  paste0(target,": ", sample(compliments, 1))
 }
