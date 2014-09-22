@@ -52,12 +52,22 @@ parseRequest <- function(post) {
       response <- paste0(post$user_name, ": _",  sample(bofh, 1), "_")
     } else if ("pirate" %in% names(post) && post$pirate) {
       response <- arrr(post$text)
+    } else if (grepl("(flip|toss) a[[:space:]]?[^[:space:]]*[[:space:]]?coin", post$text)) {
+      heads <- runif(1) > 0.5
+      cointext <- ifelse(heads, "heads", "tails")
+      response <- paste0("Sorry ", post$user_name, ", it came up ", cointext)
+      if(grepl("i (call|have|want) (head|tail)", post$text)) {
+        if(grepl("i (call|have|want) head", post$text) && heads) {
+          response <- paste0("Congrats ", post$user_name, ", it came up ", cointext)
+        }
+      } else {
+        response <- paste0(post$user_name, ": it's ", cointext)
+      }
     } else {
       response <- dunno(post)
     }
   }
 }
-
 
 #' look for a message to me, or if I spoke recently
 #'
