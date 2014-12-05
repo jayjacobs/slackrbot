@@ -234,6 +234,7 @@ crowdstrike <- function(inCountry) {
   scAnimals <- c("Unicorn", "Haggis")
   bzNames <- c("brasil","brazil")
   bzAnimals <- c("Macaw")
+  ilNames <- c("ireland","il")
   
   idkPhrases <- c("Crowdstrike doesn't know any threat actors from that country. Mayve they're script kiddies.",
                   "1998 called. They want their threat actor attribution back.",
@@ -254,6 +255,7 @@ crowdstrike <- function(inCountry) {
     if (inCountry %in% bzNames) { return(paste(sample(adjectives, 1), sample(bzAnimals, 1)))}
     if (inCountry %in% nkNames) { return(paste("Kim Jong", sample(animals,1)))}
     if (inCountry %in% jmNames) { return(paste("Stoned", sample(animals, 1)))}
+    if (inCountry %in% ilNames) { return(paste("Drunken", sample(animals, 1)))}
     return( paste(sample(idkPhrases,1), "Have you heard about", sample(adjectives,1), sample(animals,1),"though?"))
   }
   else {
