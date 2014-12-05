@@ -63,7 +63,10 @@ parseRequest <- function(post) {
       response <- arrr(post$text)
     } else if (grepl("(flip|toss) a[[:space:]]?[^[:space:]]*[[:space:]]?coin", tolower(post$text))) {
       response <- cointoss(post)
-    } else {
+    } else if (tolower(words[1] == "crowdstrike")) {
+      response <- crowdstrike(words)
+    }
+      else {
       response <- dunno(post)
     }
   }
