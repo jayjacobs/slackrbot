@@ -45,6 +45,7 @@ parseRequest <- function(post) {
   if (post$targeted) {
     words <- unlist(strsplit(post$text, " "))
     log(paste(words, collapse="-"))
+
     if (tolower(words[1]) == "insult") {
       response <- insult(paste(words[2:length(words)], collapse=" "), post$user_name)
     } else if (tolower(words[1]) == "compliment") {
@@ -65,6 +66,10 @@ parseRequest <- function(post) {
       response <- cointoss(post)
     } else if (tolower(words[1] == "crowdstrike")) {
       response <- crowdstrike(words)
+    } else if ( grepl("how many .* do i give.*", post$text, ignore.case = T)) {
+      response <- howMany()
+    } else if ( grepl("do i give a .*", post$text, ignore.case = T) ) {
+      response <- giveA()
     }
       else {
       response <- dunno(post)
