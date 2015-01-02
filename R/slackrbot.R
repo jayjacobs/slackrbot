@@ -75,9 +75,9 @@ parseRequest <- function(post) {
       response <- dunno(post)
     }
   }
-  if (is.null(response) && grepl("happy|happiness", tolower(post$text))) {
-    response <- demotivated()
-  }
+  # if (is.null(response) && grepl("happy|happiness", tolower(post$text))) {
+  #   response <- demotivated()
+  # }
   response
 }
 
